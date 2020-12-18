@@ -7,7 +7,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.api.domain.Categoria;
 import com.example.api.services.CategoriaService;
 
 @RestController
@@ -17,10 +16,14 @@ public class CategoriaResource {
 	@Autowired
 	private CategoriaService service;
 	
-	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
-	public ResponseEntity<?> buscar(@PathVariable Integer id){
-		Categoria obj = service.buscar(id);
-		
-		return ResponseEntity.ok().body(obj);
+	@RequestMapping(method = RequestMethod.GET)
+	public ResponseEntity<?> buscarTodos() {
+		return ResponseEntity.ok(service.buscarTodos());
 	}
+
+	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
+	public ResponseEntity<?> buscarId(@PathVariable Integer id) {
+		return ResponseEntity.ok(service.buscarId(id));
+	}
+
 }

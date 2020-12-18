@@ -8,8 +8,12 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import com.example.api.domain.Categoria;
+import com.example.api.domain.Cidade;
+import com.example.api.domain.Estado;
 import com.example.api.domain.Produto;
 import com.example.api.repositories.CategoriaRepository;
+import com.example.api.repositories.CidadeRepository;
+import com.example.api.repositories.EstadoRepository;
 import com.example.api.repositories.ProdutoRepository;
 
 @SpringBootApplication
@@ -20,9 +24,15 @@ public class ApiApplication implements CommandLineRunner {
 	}
 
 	@Autowired
-	private CategoriaRepository categoriarepository;
+	private CategoriaRepository categoriaRepository;
 	@Autowired
 	private ProdutoRepository produtoRepository;
+	
+	@Autowired
+	private EstadoRepository estadoRepository;
+	
+	@Autowired
+	private CidadeRepository cidadeRepository;
 
 	@Override
 	public void run(String... args) throws Exception {
@@ -40,10 +50,22 @@ public class ApiApplication implements CommandLineRunner {
 		p1.getCategorias().addAll(Arrays.asList(cat1));
 		p2.getCategorias().addAll(Arrays.asList(cat1, cat2));
 		p3.getCategorias().addAll(Arrays.asList(cat1));
-
-		categoriarepository.saveAll(Arrays.asList(cat1, cat2));
+		
+		Estado est1 = new Estado(null, "Minas Gerais");
+		Estado est2 = new Estado(null, "São Paulo");
+		
+		Cidade c1 = new Cidade(null, "Uberlândia", est1);
+		Cidade c2 = new Cidade(null, "São Paulo", est2);
+		Cidade c3 = new Cidade(null, "Campinas", est2);
+		
+		est1.getCidades().addAll(Arrays.asList(c1));
+		est2.getCidades().addAll(Arrays.asList(c2, c3));
+		
+		categoriaRepository.saveAll(Arrays.asList(cat1, cat2));
 		produtoRepository.saveAll(Arrays.asList(p1, p2, p3));
 
+		estadoRepository.saveAll(Arrays.asList(est1, est2));
+		cidadeRepository.saveAll(Arrays.asList(c1, c2, c3));
 	}
 
 }
