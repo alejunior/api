@@ -2,6 +2,7 @@ package com.example.api.domain;
 
 import java.io.Serializable;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -16,10 +17,20 @@ public class Endereco implements Serializable{
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Integer id;
+	
+	@Column(nullable = false, length = 50)
 	private String logradouro;
+	
+	@Column(length = 10)
 	private String numero;
+	
+	@Column(length = 15)
 	private String complemento;
+	
+	@Column(length = 30)
 	private String bairro;
+	
+	@Column(nullable = false, length = 10)
 	private String cep;
 	
 	@ManyToOne

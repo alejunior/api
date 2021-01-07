@@ -14,19 +14,17 @@ import com.example.api.repositories.CategoriaRepository;
 public class CategoriaService {
 
 	@Autowired
-	private CategoriaRepository repo;
+	private CategoriaRepository repository;
 
 	public Optional<Categoria> buscarId(Integer id) {
-		Optional<Categoria> obj = repo.findById(id);
+		Optional<Categoria> obj = repository.findById(id);
 		obj.orElseThrow(() -> new NoSuchElementException());
 		return obj;
 	}
 
 	public List<Categoria> buscarTodos() {
-		List<Categoria> list = repo.findAll();
-		if (list.isEmpty()) {
-			throw new NoSuchElementException();
-		}
+		List<Categoria> list = repository.findAll();
+		if (list.isEmpty()) throw new NoSuchElementException();
 		return list;
 	};
 

@@ -1,18 +1,19 @@
 package com.example.api.resources.exception;
 
 import java.io.Serializable;
+import java.time.Instant;
 
 public class StandardError implements Serializable{
 	private static final long serialVersionUID = 1L;
 
 	private Integer status;
 	private String message;
-	private Long timeStamp;
+	private Instant data;
 	
-	public StandardError(Integer status, String message, Long timeStamp) {
+	public StandardError(Integer status, String message, Instant data) {
 		this.status = status;
 		this.message = message;
-		this.timeStamp = timeStamp;
+		this.data = data;
 	}
 
 	public Integer getStatus() {
@@ -31,12 +32,12 @@ public class StandardError implements Serializable{
 		this.message = message;
 	}
 
-	public Long getTimeStamp() {
-		return timeStamp;
+	public Instant getData() {
+		return data;
 	}
 
-	public void setTimeStamp(Long timeStamp) {
-		this.timeStamp = timeStamp;
+	public void setData(Instant data) {
+		this.data = data;
 	}
 	
 }

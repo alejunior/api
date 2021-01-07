@@ -25,6 +25,7 @@ public class ApiApplication implements CommandLineRunner {
 
 	@Autowired
 	private CategoriaRepository categoriaRepository;
+	
 	@Autowired
 	private ProdutoRepository produtoRepository;
 	
@@ -61,8 +62,8 @@ public class ApiApplication implements CommandLineRunner {
 		est1.getCidades().addAll(Arrays.asList(c1));
 		est2.getCidades().addAll(Arrays.asList(c2, c3));
 		
-		categoriaRepository.saveAll(Arrays.asList(cat1, cat2));
-		produtoRepository.saveAll(Arrays.asList(p1, p2, p3));
+		categoriaRepository.saveAll(Arrays.asList(cat1, cat2)); //Primeiro o que tem um pra muitos
+		produtoRepository.saveAll(Arrays.asList(p1, p2, p3)); //Depois o que tem muitos pra um.
 
 		estadoRepository.saveAll(Arrays.asList(est1, est2));
 		cidadeRepository.saveAll(Arrays.asList(c1, c2, c3));

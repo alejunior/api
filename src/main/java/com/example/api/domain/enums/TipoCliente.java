@@ -2,8 +2,8 @@ package com.example.api.domain.enums;
 
 public enum TipoCliente {
 
-	PESSOA_FISICA(1, "PESSOA FÍSICA"),
-	PESSOA_JURIDICA(2, "PESSOA JURÍDICA");
+	PESSOA_FISICA(1, "Pessoa física"),
+	PESSOA_JURIDICA(2, "Pessoa jurídica");
 
 	private int cod;
 	private String descricao;
