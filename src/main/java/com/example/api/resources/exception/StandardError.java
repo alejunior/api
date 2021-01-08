@@ -3,13 +3,13 @@ package com.example.api.resources.exception;
 import java.io.Serializable;
 import java.time.Instant;
 
-public class StandardError implements Serializable{
+public class StandardError implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	private Integer status;
 	private String message;
 	private Instant data;
-	
+
 	public StandardError(Integer status, String message, Instant data) {
 		this.status = status;
 		this.message = message;
@@ -39,5 +39,5 @@ public class StandardError implements Serializable{
 	public void setData(Instant data) {
 		this.data = data;
 	}
-	
+
 }

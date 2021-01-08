@@ -9,10 +9,15 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import com.example.api.domain.Categoria;
 import com.example.api.domain.Cidade;
+import com.example.api.domain.Cliente;
+import com.example.api.domain.Endereco;
 import com.example.api.domain.Estado;
 import com.example.api.domain.Produto;
+import com.example.api.domain.enums.TipoCliente;
 import com.example.api.repositories.CategoriaRepository;
 import com.example.api.repositories.CidadeRepository;
+import com.example.api.repositories.ClienteRepository;
+import com.example.api.repositories.EnderecoRepository;
 import com.example.api.repositories.EstadoRepository;
 import com.example.api.repositories.ProdutoRepository;
 
@@ -34,6 +39,12 @@ public class ApiApplication implements CommandLineRunner {
 	
 	@Autowired
 	private CidadeRepository cidadeRepository;
+
+	@Autowired
+	private EnderecoRepository enderecoRepository;
+	
+	@Autowired
+	private ClienteRepository clienteRepository;
 
 	@Override
 	public void run(String... args) throws Exception {
@@ -62,11 +73,22 @@ public class ApiApplication implements CommandLineRunner {
 		est1.getCidades().addAll(Arrays.asList(c1));
 		est2.getCidades().addAll(Arrays.asList(c2, c3));
 		
+		Cliente cli1 = new Cliente(null, "Maria Silva", "maria@gmail.com", "36378912377", TipoCliente.PESSOA_FISICA);
+		cli1.getTelefone().addAll(Arrays.asList("27363323", "93838393"));
+		
+		Endereco e1 = new Endereco(null, "Rua Flores", "300", "Ap303", "Jardim", "38220834", cli1, c1);
+		Endereco e2 = new Endereco(null, "Av Martins", "105", "Sala 8", "Centro", "38777012", cli1, c2);
+		
+		cli1.getEndereco().addAll(Arrays.asList(e1, e2));
+		
 		categoriaRepository.saveAll(Arrays.asList(cat1, cat2)); //Primeiro o que tem um pra muitos
 		produtoRepository.saveAll(Arrays.asList(p1, p2, p3)); //Depois o que tem muitos pra um.
 
 		estadoRepository.saveAll(Arrays.asList(est1, est2));
 		cidadeRepository.saveAll(Arrays.asList(c1, c2, c3));
+		
+		clienteRepository.saveAll(Arrays.asList(cli1));
+		enderecoRepository.saveAll(Arrays.asList(e1, e2));
 	}
 
 }

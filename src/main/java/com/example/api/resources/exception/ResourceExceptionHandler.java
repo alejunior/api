@@ -15,20 +15,27 @@ public class ResourceExceptionHandler {
 
 	@ExceptionHandler(NoSuchElementException.class)
 	public ResponseEntity<StandardError> objectNotFound() {
-		StandardError error = new StandardError(404, "Recurso não encontrado.", Instant.now());
-		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
+		StandardError erro = new StandardError(404, "Recurso não encontrado.", Instant.now());
+		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(erro);
 	}
 	
 	@ExceptionHandler(NumberFormatException.class)
 	public ResponseEntity<StandardError> objectBad() {
-		StandardError error = new StandardError(400, "Bad Request.", Instant.now());
-		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
+		StandardError erro = new StandardError(400, "Bad Request.", Instant.now());
+		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(erro);
 	}
 	
 	@ExceptionHandler(HttpRequestMethodNotSupportedException.class)
 	public ResponseEntity<StandardError> methodBad() {
-		StandardError error = new StandardError(405, "Método não permitido para este endpoint.", Instant.now());
-		return ResponseEntity.status(HttpStatus.METHOD_NOT_ALLOWED).body(error);
+		StandardError erro = new StandardError(405, "Método não permitido para este endpoint.", Instant.now());
+		return ResponseEntity.status(HttpStatus.METHOD_NOT_ALLOWED).body(erro);
 	}
 	
+	@ExceptionHandler(IllegalArgumentException.class)
+	public ResponseEntity<StandardError> argumentIllegal() {
+		StandardError erro = new StandardError(400, "Opção inválida.", Instant.now());
+		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(erro);
+	}
+	
+		
 }
