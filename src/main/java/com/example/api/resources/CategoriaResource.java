@@ -26,4 +26,9 @@ public class CategoriaResource {
 		return ResponseEntity.ok(service.buscarId(id));
 	}
 
+	@GetMapping(value = "/porNome")
+	public ResponseEntity<?> buscarNome(String name) {
+		return ResponseEntity.ok(service.buscarNomes(name));
+	}
+
 }

@@ -33,7 +33,7 @@ public class ResourceExceptionHandler {
 	
 	@ExceptionHandler(IllegalArgumentException.class)
 	public ResponseEntity<StandardError> argumentIllegal() {
-		StandardError erro = new StandardError(400, "Opção inválida.", Instant.now());
+		StandardError erro = new StandardError(400, "Valor informado é inválida.", Instant.now());
 		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(erro);
 	}
 	

@@ -26,6 +26,11 @@ public class CategoriaService {
 		List<Categoria> list = repository.findAll();
 		if (list.isEmpty()) throw new NoSuchElementException();
 		return list;
-	};
+	}
 
+	public List<Categoria> buscarNomes(String name) {
+		List<Categoria> list = repository.findByNames(name);
+		if (list.isEmpty()) throw new NoSuchElementException();
+		return list;
+	}
 }
