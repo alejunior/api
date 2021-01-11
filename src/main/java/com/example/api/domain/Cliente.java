@@ -14,6 +14,9 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 
 import com.example.api.domain.enums.TipoCliente;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -26,13 +29,19 @@ public class Cliente implements Serializable{
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 	
+	@NotBlank(message = "Nome não pode ser vazio.")
+	@Size(min = 2, max = 50, message = "Nome deve ter minimo de 2 e maximo de 50 caracteres.")
 	@Column(nullable = false, length = 50)
 	private String nome;
 	
+	@NotBlank(message = "Email não pode ser vazio.")
+	@Email
 	@Column(nullable = false, length = 50, unique = true)
 	private String email;
 	
-	@Column(nullable = false, length = 20, unique = true)
+	@NotBlank(message = "Cpf ou Cnpj não podem ser vazios.")
+	@Size(min = 11, max = 14, message = "Cpf ou Cnpj devem ter minimo de 2 e maximo de 50 caracteres.")
+	@Column(nullable = false, length = 14, unique = true)
 	private String cpfOuCnpj;
 	
 	private Integer tipo;

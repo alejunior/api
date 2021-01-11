@@ -10,6 +10,9 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Size;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
@@ -21,11 +24,14 @@ public class Categoria implements Serializable{
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 	
+	@NotBlank(message = "Nome não pode ser vazio.")
+	@Size(min = 2, max = 20, message = "Nome deve ter minimo de 2 e maximo de 20 caracteres.")
     @Column(nullable=false, length=20, unique = true)
 	private String nome;
     
     @JsonManagedReference
 	@ManyToMany(mappedBy = "categorias")
+    @NotEmpty(message = "Lista de produtos não pode ser vazia.")
     private List<Produto> produtos = new ArrayList<>();
 
 	public Categoria() {
@@ -54,10 +60,6 @@ public class Categoria implements Serializable{
 	
 	public List<Produto> getProdutos() {
 		return produtos;
-	}
-	
-	public void setProdutos(List<Produto> produtos) {
-		this.produtos = produtos;
 	}
 
 	@Override
