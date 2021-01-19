@@ -14,15 +14,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import com.example.api.domain.Categoria;
-import com.example.api.services.CategoriaService;
+import com.example.api.domain.Cliente;
+import com.example.api.services.ClienteService;
 
 @RestController
-@RequestMapping(value = "/categorias")
-public class CategoriaResource {
+@RequestMapping(value = "/clientes")
+public class ClienteResource {
 
 	@Autowired
-	private CategoriaService service;
+	private ClienteService service;
 
 	@GetMapping
 	public ResponseEntity<?> buscarTodos() {
@@ -40,10 +40,10 @@ public class CategoriaResource {
 	}
 
 	@PostMapping
-	public ResponseEntity<?> salvar(@RequestBody @Valid Categoria categoria){
+	public ResponseEntity<?> salvar(@RequestBody @Valid Cliente cliente){
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
-				.buildAndExpand(categoria.getId()).toUri();
-	return ResponseEntity.created(uri).body(service.salvar(categoria));
+				.buildAndExpand(cliente.getId()).toUri();
+	return ResponseEntity.created(uri).body(service.salvar(cliente));
 	}
 
 }

@@ -3,9 +3,11 @@ package com.example.api.resources.exception;
 import java.time.Instant;
 import java.util.NoSuchElementException;
 
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
@@ -36,6 +38,21 @@ public class WebRestControllerAdvice {
 		StandardError erro = new StandardError(400, "Valor informado é inválida.", Instant.now());
 		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(erro);
 	}
+	
+	@ExceptionHandler(DataIntegrityViolationException.class)
+	public ResponseEntity<StandardError> DataIntegrityViolation() {
+		StandardError erro = new StandardError(400, "Recurso já cadastrado.", Instant.now());
+		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(erro);
+	}
+	@ExceptionHandler(MethodArgumentNotValidException.class)
+	public ResponseEntity<StandardError> ArgumentNotValid() {
+		StandardError erro = new StandardError(400, "Informação inválida ou ausente.", Instant.now());
+		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(erro);
+	}
+	
+	
+	
+	
 	
 		
 }

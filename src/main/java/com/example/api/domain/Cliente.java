@@ -16,10 +16,10 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
 
 import com.example.api.domain.enums.TipoCliente;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 public class Cliente implements Serializable{
@@ -44,15 +44,20 @@ public class Cliente implements Serializable{
 	@Column(nullable = false, length = 14, unique = true)
 	private String cpfOuCnpj;
 	
+	//@NotBlank(message = "Tipo do cliente deve ser informado.")
 	private Integer tipo;
 	
-	@JsonIgnore
+	@NotEmpty(message = "Lista de enderecos não pode ser vazia.")
 	@OneToMany(mappedBy = "cliente")
 	private List<Endereco> enderecos = new ArrayList<>();
 	
+	@NotEmpty(message = "Lista de telefones não pode ser vazia.")
 	@ElementCollection
 	@CollectionTable(name = "TELEFONE")
-	private Set<String> telefone = new HashSet<>();
+	private Set<String> telefones = new HashSet<>();
+	
+	@OneToMany(mappedBy = "cliente")
+	private List<Pedido> pedidos = new ArrayList<>();
 	
 	public Cliente() {
 	}
@@ -109,18 +114,14 @@ public class Cliente implements Serializable{
 		return enderecos;
 	}
 
-	public void setEndereco(List<Endereco> endereco) {
-		this.enderecos = endereco;
-	}
-
 	public Set<String> getTelefone() {
-		return telefone;
+		return telefones;
 	}
 
-	public void setTelefone(Set<String> telefone) {
-		this.telefone = telefone;
+	public List<Pedido> getPedidos() {
+		return pedidos;
 	}
-
+	
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -145,7 +146,7 @@ public class Cliente implements Serializable{
 			return false;
 		return true;
 	}
-	
+
 	
 
 }

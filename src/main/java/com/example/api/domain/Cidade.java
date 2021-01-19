@@ -9,6 +9,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.validation.constraints.NotBlank;
 
 @Entity
 public class Cidade implements Serializable{
@@ -18,6 +19,7 @@ public class Cidade implements Serializable{
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 	
+	@NotBlank(message = "Nome deve ser informado.")
 	@Column(nullable = false, length = 50)
 	private String nome;
 	
@@ -29,7 +31,6 @@ public class Cidade implements Serializable{
 	}
 	
 	public Cidade(Integer id, String nome, Estado estado) {
-		super();
 		this.id = id;
 		this.nome = nome;
 		this.estado = estado;

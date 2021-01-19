@@ -9,6 +9,9 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.validation.constraints.NotBlank;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 public class Endereco implements Serializable{
@@ -18,6 +21,7 @@ public class Endereco implements Serializable{
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Integer id;
 	
+	@NotBlank(message = "Logradouro deve ser informado.")
 	@Column(nullable = false, length = 50)
 	private String logradouro;
 	
@@ -27,16 +31,20 @@ public class Endereco implements Serializable{
 	@Column(length = 15)
 	private String complemento;
 	
+	@NotBlank(message = "Bairro deve ser informado.")
 	@Column(length = 30)
 	private String bairro;
 	
+	@NotBlank(message = "Cep deve ser informado.")
 	@Column(nullable = false, length = 10)
 	private String cep;
 	
+	@JsonIgnore
 	@ManyToOne
 	@JoinColumn(name="cliente_id")
 	private Cliente cliente;
 	
+	//@NotBlank(message = "Cidade deve ser informada.")
 	@ManyToOne
 	@JoinColumn(name="cidade_id")
 	private Cidade cidade;
@@ -44,6 +52,14 @@ public class Endereco implements Serializable{
 	public Endereco() {
 	}
 
+	public Endereco(Integer id, String logradouro, String numero, String complemento, String bairro, String cep) {
+		this.id = id;
+		this.logradouro = logradouro;
+		this.numero = numero;
+		this.complemento = complemento;
+		this.bairro = bairro;
+		this.cep = cep;
+	}
 	public Endereco(Integer id, String logradouro, String numero, String complemento, String bairro, String cep,
 			Cliente cliente, Cidade cidade) {
 		this.id = id;
