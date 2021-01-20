@@ -11,7 +11,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
 
 @Entity
@@ -23,12 +22,11 @@ public class Categoria implements Serializable{
 	private Integer id;
 	
 	@NotBlank(message = "Nome não pode ser vazio.")
-	@Size(min = 2, max = 20, message = "Nome deve ter minimo de 2 e maximo de 20 caracteres.")
-    @Column(nullable=false, length=20, unique = true)
+	@Size(min = 2, max = 50, message = "Nome deve ter minimo de 2 e maximo de 50 caracteres.")
+    @Column(nullable=false, length=50, unique = true)
 	private String nome;
     
 	@ManyToMany(mappedBy = "categorias")
-    @NotEmpty(message = "Lista de produtos não pode ser vazia.")
     private List<Produto> produtos = new ArrayList<>();
 
 	public Categoria() {

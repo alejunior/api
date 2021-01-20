@@ -1,7 +1,6 @@
 package com.example.api.services;
 
 import java.util.List;
-import java.util.NoSuchElementException;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.example.api.domain.Cliente;
 import com.example.api.domain.Endereco;
 import com.example.api.repositories.ClienteRepository;
+import com.example.api.services.exception.ObjectNotFoundException;
 
 @Service
 public class ClienteService {
@@ -21,21 +21,21 @@ public class ClienteService {
 	@Transactional(readOnly = true)
 	public Optional<Cliente> buscarId(Integer id) {
 		Optional<Cliente> obj = repository.findById(id);
-		obj.orElseThrow(() -> new NoSuchElementException());
+		obj.orElseThrow(() -> new ObjectNotFoundException("Recurso não encontrado."));
 		return obj;
 	}
 
 	@Transactional(readOnly = true)
 	public List<Cliente> buscarTodos() {
 		List<Cliente> list = repository.findAll();
-		if (list.isEmpty()) throw new NoSuchElementException();
+		if (list.isEmpty()) throw new ObjectNotFoundException("Recurso não encontrado.");
 		return list;
 	}
 
 	@Transactional(readOnly = true)
 	public List<Cliente> buscarNomes(String name) {
 		List<Cliente> list = repository.findByName(name);
-		if (list.isEmpty()) throw new NoSuchElementException();
+		if (list.isEmpty()) throw new ObjectNotFoundException("Recurso não encontrado.");
 		return list;
 	}
 

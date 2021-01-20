@@ -1,6 +1,6 @@
 package com.example.api.domain.enums;
 
-public enum EstadoPagamento {
+public enum StatusPagamento {
 	
 	PENDENTE(1, "Pendente"),
 	QUITADO(2, "Quitado"),
@@ -9,7 +9,7 @@ public enum EstadoPagamento {
 	private int cod;
 	private String descricao;
 
-	private EstadoPagamento(int cod, String descricao) {
+	private StatusPagamento(int cod, String descricao) {
 		this.cod = cod;
 		this.descricao = descricao;
 	}
@@ -22,11 +22,11 @@ public enum EstadoPagamento {
 		return descricao;
 	}
 
-	public static EstadoPagamento toEnum(Integer cod) {
+	public static StatusPagamento toEnum(Integer cod) {
 		if (cod == null)
 			return null;
 
-		for (EstadoPagamento x : EstadoPagamento.values()) {
+		for (StatusPagamento x : StatusPagamento.values()) {
 			if (cod.equals(x.getCod()))
 				return x;
 		}

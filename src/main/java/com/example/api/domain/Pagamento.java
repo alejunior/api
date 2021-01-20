@@ -10,7 +10,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.MapsId;
 import javax.persistence.OneToOne;
 
-import com.example.api.domain.enums.EstadoPagamento;
+import com.example.api.domain.enums.StatusPagamento;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
@@ -20,8 +21,9 @@ public abstract class Pagamento implements Serializable{
 	@Id
 	private Integer id;
 	
-	private Integer estado;
+	private Integer status;
 	
+	@JsonIgnore
 	@OneToOne
 	@JoinColumn(name = "pedido_id")
 	@MapsId
@@ -30,9 +32,9 @@ public abstract class Pagamento implements Serializable{
 	public Pagamento() {
 	}
 
-	public Pagamento(Integer id, EstadoPagamento estado, Pedido pedido) {
+	public Pagamento(Integer id, StatusPagamento status, Pedido pedido) {
 		this.id = id;
-		this.estado = estado.getCod();
+		this.status = status.getCod();
 		this.pedido = pedido;
 	}
 
@@ -44,12 +46,12 @@ public abstract class Pagamento implements Serializable{
 		this.id = id;
 	}
 
-	public EstadoPagamento getEstado() {
-		return EstadoPagamento.toEnum(estado);
+	public StatusPagamento getStatus() {
+		return StatusPagamento.toEnum(status);
 	}
 
-	public void setEstado(EstadoPagamento estado) {
-		this.estado = estado.getCod();
+	public void setStatus(StatusPagamento status) {
+		this.status = status.getCod();
 	}
 
 	public Pedido getPedido() {
@@ -64,7 +66,7 @@ public abstract class Pagamento implements Serializable{
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((estado == null) ? 0 : estado.hashCode());
+		result = prime * result + ((status == null) ? 0 : status.hashCode());
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		result = prime * result + ((pedido == null) ? 0 : pedido.hashCode());
 		return result;
@@ -79,7 +81,7 @@ public abstract class Pagamento implements Serializable{
 		if (getClass() != obj.getClass())
 			return false;
 		Pagamento other = (Pagamento) obj;
-		if (estado != other.estado)
+		if (status != other.status)
 			return false;
 		if (id == null) {
 			if (other.id != null)

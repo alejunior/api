@@ -1,55 +1,69 @@
 package com.example.api.services;
 
 import java.util.List;
-import java.util.NoSuchElementException;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.example.api.domain.Categoria;
-import com.example.api.domain.Produto;
 import com.example.api.repositories.CategoriaRepository;
-import com.example.api.repositories.ProdutoRepository;
+import com.example.api.services.exception.DataIntegrityException;
+import com.example.api.services.exception.ObjectNotFoundException;
 
 @Service
 public class CategoriaService {
 
 	@Autowired
 	private CategoriaRepository repository;
-	
-	@Autowired
-	private ProdutoRepository produtoRepository;
 
 	@Transactional(readOnly = true)
 	public Optional<Categoria> buscarId(Integer id) {
 		Optional<Categoria> obj = repository.findById(id);
-		obj.orElseThrow(() -> new NoSuchElementException());
+		obj.orElseThrow(() -> new ObjectNotFoundException("Recurso não encontrado."));
 		return obj;
 	}
 
 	@Transactional(readOnly = true)
 	public List<Categoria> buscarTodos() {
 		List<Categoria> list = repository.findAll();
-		if (list.isEmpty()) throw new NoSuchElementException();
+		if (list.isEmpty())
+			throw new ObjectNotFoundException("Recurso não encontrado.");
 		return list;
 	}
 
 	@Transactional(readOnly = true)
 	public List<Categoria> buscarNomes(String name) {
 		List<Categoria> list = repository.findByNames(name);
-		if (list.isEmpty()) throw new NoSuchElementException();
+		if (list.isEmpty())
+			throw new ObjectNotFoundException("Recurso não encontrado.");
 		return list;
 	}
 
-	@Transactional
 	public Categoria salvar(Categoria categoria) {
-		Categoria cat = new Categoria(null, categoria.getNome());
-		for(Produto p : categoria.getProdutos()) {
-			Produto product = produtoRepository.getOne(p.getId());
-			cat.getProdutos().add(product);
+		categoria.setId(null);
+		try {
+			categoria = repository.save(categoria);
+		} catch (DataIntegrityViolationException e) {
+			throw new DataIntegrityException("Recurso já cadastrado.");
 		}
-		return repository.save(cat);
+		return categoria;
 	}
+
+	public Categoria alterar(Categoria categoria) {
+		buscarId(categoria.getId());
+		return repository.save(categoria);
+	}
+
+	public void apagar(Integer id) {
+		buscarId(id);
+		try {
+			repository.deleteById(id);
+		} catch (DataIntegrityViolationException e) {
+			throw new DataIntegrityException("Categoria possui produtos atrelados e portanto não pode ser excluida.");
+		}
+	}
+
 }

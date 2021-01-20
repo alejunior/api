@@ -2,7 +2,7 @@ package com.example.api.domain;
 
 import javax.persistence.Entity;
 
-import com.example.api.domain.enums.EstadoPagamento;
+import com.example.api.domain.enums.StatusPagamento;
 
 @Entity
 public class PagamentoComCartao extends Pagamento{
@@ -13,8 +13,8 @@ public class PagamentoComCartao extends Pagamento{
 	public PagamentoComCartao() {
 	}
 
-	public PagamentoComCartao(Integer id, EstadoPagamento estado, Pedido pedido, Integer numeroDeParcelas) {
-		super(id, estado, pedido);
+	public PagamentoComCartao(Integer id, StatusPagamento status, Pedido pedido, Integer numeroDeParcelas) {
+		super(id, status, pedido);
 		this.numeroDeParcelas = numeroDeParcelas;
 	}
 
