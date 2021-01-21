@@ -1,10 +1,14 @@
 package com.example.api.resources.exception;
 
 import java.time.Instant;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.FieldError;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
@@ -40,10 +44,19 @@ public class WebRestControllerAdvice {
 	}
 	
 	@ExceptionHandler(DataIntegrityException.class)
-	public ResponseEntity<StandardError> DataIntegrity(DataIntegrityException e) {
+	public ResponseEntity<StandardError> dataIntegrity(DataIntegrityException e) {
 		StandardError erro = new StandardError(400, e.getMessage(), Instant.now());
 		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(erro);
 	}
 	
+	@ExceptionHandler(MethodArgumentNotValidException.class)
+	public ResponseEntity<ValidationError> validation(MethodArgumentNotValidException e) {
+		List<FieldMessage> errors = new ArrayList<>();
+		for(FieldError x : e.getBindingResult().getFieldErrors()) {
+			errors.add(new FieldMessage(x.getField(), x.getDefaultMessage())); 
+		}
+		ValidationError erro = new ValidationError(422, "Erro de validação.", Instant.now(), errors);
+		return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body(erro);
+	}
 		
 }
